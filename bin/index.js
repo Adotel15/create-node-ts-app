@@ -79,5 +79,18 @@ if (!projectName) {
     `console.log("Hello from ${projectName}!");`
   );
 
+  console.log("⚙️ Initializing Git repository...");
+  await execa("git", ["init"], { stdio: "inherit" });
+
+  console.log("📝 Creating .gitignore...");
+  const gitignoreContent = `\
+node_modules
+dist
+.env
+npm-debug.log
+`;
+  await fs.writeFile(path.join(projectPath, ".gitignore"), gitignoreContent);
+
   console.log("✅ Project created successfully.");
+  console.log(`\nNext steps:\n  cd ${projectName}\n  npm run dev`);
 })();
