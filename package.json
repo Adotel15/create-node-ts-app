@@ -1,6 +1,6 @@
 {
   "name": "@adodev/create-node-ts-app",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Personal CLI to create a Node.js TypeScript application with ESLint",
   "type": "module",
   "bin": {
