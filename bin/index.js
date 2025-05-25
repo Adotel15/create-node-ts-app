@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-const fs = require("fs-extra");
-const path = require("path");
-const execa = require("execa");
+import fs from "fs-extra";
+import path from "path";
+import { execa } from "execa";
 
 const projectName = process.argv[2];
 
@@ -20,20 +20,24 @@ if (!projectName) {
   process.chdir(projectPath);
 
   console.log("📦 Initializing npm...");
-  await execa("npm", ["init", "-y"]);
+  await execa("npm", ["init", "-y"], { stdio: "inherit" });
 
   console.log("📥 Installing dependencies...");
-  await execa("npm", [
-    "install",
-    "-D",
-    "typescript",
-    "ts-node",
-    "@types/node",
-    "eslint",
-    "@typescript-eslint/eslint-plugin",
-    "@typescript-eslint/parser",
-    "tsx",
-  ]);
+  await execa(
+    "npm",
+    [
+      "install",
+      "-D",
+      "typescript",
+      "ts-node",
+      "@types/node",
+      "eslint",
+      "@typescript-eslint/eslint-plugin",
+      "@typescript-eslint/parser",
+      "tsx",
+    ],
+    { stdio: "inherit" }
+  );
 
   console.log("📝 Adding scripts to package.json...");
   const packageJsonPath = path.join(projectPath, "package.json");
@@ -47,7 +51,7 @@ if (!projectName) {
   await fs.writeJson(packageJsonPath, packageJson, { spaces: 2 });
 
   console.log("🛠️ Creating tsconfig.json...");
-  await execa("npx", ["tsc", "--init"]);
+  await execa("./node_modules/.bin/tsc", ["--init"], { stdio: "inherit" });
 
   console.log("🧹 Configuring ESLint...");
   await fs.writeJson(
